@@ -104,6 +104,32 @@ class DBmToWatt(Node):
 		self.output['watt'].push(1e-3*math.pow(10, dBm/10.))
 
 
+class ERPToEIRP(Node):
+	'''
+	Effective radiated power to effective isotropic radiated power
+	'''
+	def __init__(self):
+		Node.__init__(self, 'ERP to EIRP')
+		self.addInput('erpDBm', 0.)
+		self.addOutput('eirpDBm', Ptype.FLOAT)
+	
+	def process(self, erpDBm):
+		self.output['eirpDBm'].push(erpDBm+2.15)
+
+
+class EIRPToERP(Node):
+	'''
+	Effective isotropic radiated power to effective radiated power
+	'''
+	def __init__(self):
+		Node.__init__(self, 'EIRP to ERP')
+		self.addInput('eirpDBm', 0.)
+		self.addOutput('erpDBm', Ptype.FLOAT)
+	
+	def process(self, eirpDBm):
+		self.output['erpDBm'].push(eirpDBm-2.15)
+
+
 class Amplifier(Node):
 	'''
 	Amplifies a signal
